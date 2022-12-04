@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class CategoryController {
                                             .stream()
                                             .map(cat -> modelMapper.map(cat, CategoryDTO.class))
                                             .collect(Collectors.toList());
+
 //        List<CategoryDTO> list = categoryService.findAll()
 //                                            .stream()
 //                                            .map(cat -> {
@@ -57,18 +59,30 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> save(@RequestBody Category category) throws Exception{
-        return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
+    public ResponseEntity<CategoryDTO> save(@Valid @RequestBody CategoryDTO category) throws Exception{
+        Category categ = categoryService.save(modelMapper.map(category, Category.class));
+
+        return new ResponseEntity<>(modelMapper.map(categ, CategoryDTO.class), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Category> update(@RequestBody Category category) throws Exception{
-        return new ResponseEntity<>(categoryService.update(category), HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> update(@Valid @RequestBody CategoryDTO category) throws Exception{
+        Category categ = categoryService.update(modelMapper.map(category, Category.class));
+
+        return new ResponseEntity<>(modelMapper.map(categ, CategoryDTO.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
+        Category categ = categoryService.findById(id);
+
+        if(categ == null){
+            throw new ModelNotFoundException("ID Not Found: " + id);
+        }
+
         categoryService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    //API http://localhost:8080/v3/api-docs / http://localhost:8080/swagger-ui.html
 }
