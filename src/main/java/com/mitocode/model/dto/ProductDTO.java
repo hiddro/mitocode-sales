@@ -1,7 +1,6 @@
 package com.mitocode.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mitocode.model.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

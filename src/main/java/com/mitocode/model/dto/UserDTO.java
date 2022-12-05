@@ -1,7 +1,9 @@
 package com.mitocode.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mitocode.model.entity.Role;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,16 +24,20 @@ public class UserDTO {
     private Integer idUser;
 
     @NotNull
+//    @JsonIncludeProperties(value = {"name"})
     private RoleDTO role;
 
     @NotNull
     @NotEmpty
     @Size(min = 3, max = 50)
+//    @JsonProperty(value = "user_name") // le cambia al nombre para obtenerlo o enviarlo en el json
     private String username;
 
     @NotNull
     @NotEmpty
     @Size(min = 10, max = 60)
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // write solo para request y read pára response
     private String password;
 
     @NotNull

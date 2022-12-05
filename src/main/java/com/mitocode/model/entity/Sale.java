@@ -38,7 +38,10 @@ public class Sale {
     @Column(columnDefinition = "decimal(6,2)", nullable = false)
     private double tax;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL) //mapedby hace referencia al nombre de lavariable declarada en sale / FetchType por defeccto es Lazy
+    @Column(nullable = false)
+    private boolean enabled;
+
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //mapedby hace referencia al nombre de lavariable declarada en sale / FetchType por defeccto es Lazy
     @JsonIgnore// no genera FK
     private List<SaleDetail> details;
 }
