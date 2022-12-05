@@ -6,6 +6,7 @@ import com.mitocode.model.entity.Category;
 import com.mitocode.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @Autowired
+    @Qualifier("categoryMapper")
     private ModelMapper modelMapper;
 
     @GetMapping
